@@ -11,13 +11,12 @@ namespace Enyim.Collections
 	{
 		private readonly Lazy<List<RTreeNode<T>>> children;
 
-		internal RTreeNode() { }
+		internal RTreeNode() : this(default(T), new Envelope()) { }
 
 		public RTreeNode(T data, Envelope envelope)
 		{
 			Data = data;
 			Envelope = envelope;
-
 			children = new Lazy<List<RTreeNode<T>>>(() => new List<RTreeNode<T>>(), LazyThreadSafetyMode.None);
 		}
 

@@ -213,6 +213,22 @@ namespace Enyim.Collections
 			AdjutsParentBounds(envelope, insertPath, level);
 		}
 
+		private int EnlargedArea(Envelope what, Envelope by)
+		{
+			return (Math.Max(by.X2, what.X2) - Math.Min(by.X1, what.X1)) *
+					(Math.Max(by.Y2, what.Y2) - Math.Min(by.Y1, what.Y1));
+		}
+
+		private int IntersectionArea(Envelope what, Envelope with)
+		{
+			var minX = Math.Max(what.X1, with.X1);
+			var minY = Math.Max(what.Y1, with.Y1);
+			var maxX = Math.Min(what.X2, with.X2);
+			var maxY = Math.Min(what.Y2, with.Y2);
+
+			return Math.Max(0, maxX - minX) * Math.Max(0, maxY - minY);
+		}
+
 		private RTreeNode<T> ChooseSubtree(Envelope bbox, RTreeNode<T> node, int level, List<RTreeNode<T>> path)
 		{
 			while (true)
@@ -229,7 +245,7 @@ namespace Enyim.Collections
 				{
 					var child = node.Children[i];
 					var area = child.Envelope.Area;
-					var enlargement = bbox.EnlargedArea(child.Envelope) - area;
+					var enlargement = EnlargedArea(bbox, child.Envelope) - area;
 
 					// choose entry with the least area enlargement
 					if (enlargement < minEnlargement)
@@ -304,7 +320,7 @@ namespace Enyim.Collections
 				var bbox1 = SumChildBounds(node, 0, i);
 				var bbox2 = SumChildBounds(node, i, M);
 
-				var overlap = bbox1.IntersectionArea(bbox2);
+				var overlap = IntersectionArea(bbox1, bbox2);
 				var area = bbox1.Area + bbox2.Area;
 
 				// choose distribution with minimum overlap
@@ -314,7 +330,6 @@ namespace Enyim.Collections
 					index = i;
 
 					minArea = area < minArea ? area : minArea;
-
 				}
 				else if (overlap == minOverlap)
 				{

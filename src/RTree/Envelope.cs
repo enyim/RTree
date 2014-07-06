@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace Enyim.Collections
 {
-	public struct Envelope
+	public class Envelope
 	{
+		public Envelope() { }
+
 		public Envelope(int x1, int y1, int x2, int y2)
-			: this()
 		{
 			X1 = x1;
 			Y1 = y1;
@@ -31,22 +32,6 @@ namespace Enyim.Collections
 			Y1 = Math.Min(Y1, by.Y1);
 			X2 = Math.Max(X2, by.X2);
 			Y2 = Math.Max(Y2, by.Y2);
-		}
-
-		public int EnlargedArea(Envelope by)
-		{
-			return (Math.Max(by.X2, X2) - Math.Min(by.X1, X1)) *
-					(Math.Max(by.Y2, Y2) - Math.Min(by.Y1, Y1));
-		}
-
-		public int IntersectionArea(Envelope with)
-		{
-			var minX = Math.Max(X1, with.X1);
-			var minY = Math.Max(Y1, with.Y1);
-			var maxX = Math.Min(X2, with.X2);
-			var maxY = Math.Min(Y2, with.Y2);
-
-			return Math.Max(0, maxX - minX) * Math.Max(0, maxY - minY);
 		}
 
 		public override string ToString()
