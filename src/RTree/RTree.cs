@@ -396,10 +396,18 @@ namespace Enyim.Collections
 				}
 				else if (parent != null)
 				{
-					// go right
 					i++;
-					node = parent.Children[i];
-					goingUp = false;
+					if (i == parent.Children.Count)
+					{
+						// end of list; will go up
+						node = null;
+					}
+					else
+					{
+						// go right
+						node = parent.Children[i];
+						goingUp = false;
+					}
 
 				}
 				else node = null; // nothing found
