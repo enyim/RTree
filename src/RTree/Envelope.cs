@@ -8,7 +8,7 @@ namespace Enyim.Collections
 {
 	public class Envelope
 	{
-		public Envelope() { }
+		internal Envelope() { }
 
 		public Envelope(int x1, int y1, int x2, int y2)
 		{
@@ -23,10 +23,10 @@ namespace Enyim.Collections
 		public int X2 { get; private set; } // 2
 		public int Y2 { get; private set; } // 3
 
-		public int Area { get { return (X2 - X1) * (Y2 - Y1); } }
-		public int Margin { get { return (X2 - X1) + (Y2 - Y1); } }
+		internal int Area { get { return (X2 - X1) * (Y2 - Y1); } }
+		internal int Margin { get { return (X2 - X1) + (Y2 - Y1); } }
 
-		public void Extend(Envelope by)
+		internal void Extend(Envelope by)
 		{
 			X1 = Math.Min(X1, by.X1);
 			Y1 = Math.Min(Y1, by.Y1);
@@ -39,16 +39,14 @@ namespace Enyim.Collections
 			return String.Format("{0},{1} - {2},{3}", X1, Y1, X2, Y2);
 		}
 
-		public bool Intersects(Envelope b)
+		internal bool Intersects(Envelope b)
 		{
-			return b.X1 <= X2 && b.Y1 <= Y2 &&
-					b.X2 >= X1 && b.Y2 >= Y1;
+			return b.X1 <= X2 && b.Y1 <= Y2 && b.X2 >= X1 && b.Y2 >= Y1;
 		}
 
-		public bool Contains(Envelope b)
+		internal bool Contains(Envelope b)
 		{
-			return X1 <= b.X1 && Y1 <= b.Y1 &&
-					b.X2 <= X2 && b.Y2 <= Y2;
+			return X1 <= b.X1 && Y1 <= b.Y1 && b.X2 <= X2 && b.Y2 <= Y2;
 		}
 	}
 }
